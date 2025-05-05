@@ -1,0 +1,154 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.21 of 2022/01/12
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{xcolor}
+
+\begin{document}
+%
+\title{Reducing the Size of Distinguishing Hennessy-Milner Formulae}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Peter Heijstek\orcidID{p.j.heijstek@student.tue.nl} \and
+Tim A.C. Willemse\orcidID{0000-0003-3049-7962}}
+
+\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{Eindhoven University of Technology, Eindhoven, The Netherlands}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+    Two Labelled Transitions Systems (LTS) that are not bisimilar can be distinguished by a Hennessy-Milner formula. Often it is the case that these distinguishing formulae are hard to interpret due to their size. In this article an attempt is made to shorten these distinguishing formulae by extending the Hennessy-Milner logic with operators such as `Invariantly' and `Reachable'. To this end, an algorithm is introduced that can generate disinguishing formulae in the extended Hennessy-Milner Logic. A correctness proof and runtime complexity analysis are provided.
+
+\keywords{Bisimulation  \and Hennessy-Milner Logic \and Distinguishing formulae.}
+\end{abstract}
+
+% Reference Cle91
+\section{Introduction}
+
+
+\section{Preliminaries}
+\subsection{Labelled Transition Systems}
+%
+%
+%
+A Labelled Transition System, or LTS for short, is defined as a tuple $(S, Act, \rightarrow)$ where $S$ is a set of states, $Act$ is a finite set of actions and $\;\rightarrow\; \subseteq S \times Act \times S$. $(s, a, t) \in \;\rightarrow$ is also written as $s \xrightarrow{a} t$.
+
+Note that this definition does not prohibit multiple transitions from a single state with the same action, hence these systems can be non-deterministic.
+
+\subsection{Hennessy-Milner Logic}
+The syntax of the Hennessy-Milner Logic is given by:
+
+$$\Phi = tt \mid \neg \Phi \mid \Phi_1 \land \Phi_2 \mid \langle Act\rangle \Phi $$
+
+The set of all Hennessy-Milner Logic formulas is defined as $F$. Given an LTS $L = (S, Act, \rightarrow)$, the semantics of the HML formulas can be defined as as function $\llbracket \rrbracket_L : F \rightarrow 2^S$.
+
+The definition of the function is:
+
+    $$\llbracket tt \rrbracket_L = S$$
+    $$\llbracket \Phi_1 \land \Phi_2 \rrbracket_L = \llbracket \Phi_1 \rrbracket_L \cup \llbracket \Phi_2 \rrbracket_L$$
+    $$\llbracket \neg \Phi \rrbracket_L = S - \llbracket \Phi \rrbracket_L $$
+    $$\llbracket \langle a \rangle \Phi \rrbracket_L = \{s \in S : \exists t \in \llbracket \Phi \rrbracket_L : s \xrightarrow{a} t \} $$
+
+    % s if s a t \in -> and t in Eval
+
+
+\section{Related Work}
+There are 
+This section lists current known algorithms for generating distinguishing formulas.
+
+[Jan Jan] Presents an algorithm to construct witnesses in polynomial time where the observation depth is minimal. Likewise for minimal negation depth.
+
+Cle91 presents an algorithm that computes a formula in O(nm), where n = |S| and M is the number of transitions
+
+\section{Extension to the Hennessy-Milner Logic}
+We extend the HML with the operators $Inv$ and $Reach$. Informally, $Inv(\Phi)$ holds in a state if $\Phi$ holds for all states reachable from that state (including itself). $Reach(\Phi)$ holds in all states that can reach a state where $\Phi$ holds. The syntax becomes
+
+$$\Phi = tt \mid \neg \Phi \mid \Phi_1 \land \Phi_2 \mid \langle Act\rangle \Phi \mid Inv(\Phi) \mid Reach(\Phi) $$
+
+To properly define the semantics, the following functions, with LTS $L = (S, Act, \rightarrow)$ as context, are introduced:
+
+$$F_L(X) = \{s \in X \mid \forall s \xrightarrow{a} s' : s' \in X \}$$
+$$G_L(X) = \{s \in S \mid \exists s \xrightarrow{a} s' : s' \in X \}$$
+
+$F_L(X)$ and $G_L(X)$ are monotonic, hence there exists a greatest fixpoint and least fixpoint for these functions.
+
+The semantics for these operators, given an LTS $L = (S, Act, \rightarrow)$, is
+
+$$\llbracket Inv(\Phi) \rrbracket_L = vX.F_L(X) \cap \llbracket \Phi \rrbracket_L $$
+$$\llbracket Reach(\Phi) \rrbracket_L = \mu X.G_L(X) \cup \llbracket \Phi \rrbracket_L$$
+
+{\color{blue}
+    Note that these operators are each others dual: $Inv(\Phi) = \neg Reach(\neg \Phi)$.}
+
+
+
+\section{Generating Distinguishing formulae in the Extended Hennessy-Milner Logic}
+
+\section{Reflection}
+\section{Conclusion}
+
+
+
+\begin{credits}
+\subsubsection{\ackname} A bold run-in heading in small font size at the end of the paper is
+used for general acknowledgments, for example: This study was funded
+by X (grant number Y).
+
+\subsubsection{\discintname}
+It is now necessary to declare any competing interests or to specifically
+state that the authors have no competing interests. Please place the
+statement with a bold run-in heading in small font size beneath the
+(optional) acknowledgments\footnote{If EquinOCS, our proceedings submission
+system, is used, then the disclaimer can be provided directly in the system.},
+for example: The authors have no competing interests to declare that are
+relevant to the content of this article. Or: Author A has received research
+grants from Company W. Author B has received a speaker honorarium from
+Company X and owns stock in Company Y. Author C is a member of committee Z.
+\end{credits}
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+\begin{thebibliography}{8}
+\bibitem{ref_article1}
+Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
+
+\bibitem{ref_lncs1}
+Author, F., Author, S.: Title of a proceedings paper. In: Editor,
+F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
+Springer, Heidelberg (2016). \doi{10.10007/1234567890}
+
+\bibitem{ref_book1}
+Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
+Location (1999)
+
+\bibitem{ref_proc1}
+Author, A.-B.: Contribution title. In: 9th International Proceedings
+on Proceedings, pp. 1--2. Publisher, Location (2010)
+
+\bibitem{ref_url1}
+LNCS Homepage, \url{http://www.springer.com/lncs}, last accessed 2023/10/25
+\end{thebibliography}
+\end{document}
