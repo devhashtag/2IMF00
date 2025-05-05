@@ -70,12 +70,17 @@ The definition of the function is:
 
 
 \section{Related Work}
-There are 
-This section lists current known algorithms for generating distinguishing formulas.
+Bisimulation partition algorithm
+Cleavelands algorithm (1990)
 
-[Jan Jan] Presents an algorithm to construct witnesses in polynomial time where the observation depth is minimal. Likewise for minimal negation depth.
 
-Cle91 presents an algorithm that computes a formula in O(nm), where n = |S| and M is the number of transitions
+{\color{red} Reference Jan} proves that finding a minimal-size distinguishing formula is NP-hard. The size is in this case the total number of observations in the formula. However, different definitions of size allow for a polynomial-time algorithm for generating witnesses. Specifically, formulas with the smallest nesting depth of observations and formulas with the smallest negation depth can be found in polynomial time.
+
+
+HLMU
+
+Coalgebraic approach Konig et al 2020
+
 
 \section{Extension to the Hennessy-Milner Logic}
 We extend the HML with the operators $Inv$ and $Reach$. Informally, $Inv(\Phi)$ holds in a state if $\Phi$ holds for all states reachable from that state (including itself). $Reach(\Phi)$ holds in all states that can reach a state where $\Phi$ holds. The syntax becomes
@@ -132,7 +137,8 @@ Company X and owns stock in Company Y. Author C is a member of committee Z.
 % \bibliography{mybibliography}
 %
 \begin{thebibliography}{8}
-\bibitem{ref_article1}
+\bibitem{ref_1}
+% Jan Martens
 Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
 
 \bibitem{ref_lncs1}
